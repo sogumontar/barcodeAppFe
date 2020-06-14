@@ -15,8 +15,8 @@
         <b-col  col lg="5" >
         </b-col>
         <b-col col lg="2">
-          <p>Nama  {{data.nama}} </p>
-          <p>Nim  {{data.nim}} </p>
+          <p>Nama  {{ data.nama }} </p>
+          <p>Nim  {{ data.nim }} </p>
         </b-col>
       </b-row>
       <br>
@@ -76,7 +76,7 @@ export default {
       this.data = response.data;
       console.log(this.data);
     },
-    async refresh(){
+    async refresh() {
       const response = await axios.get(`https://barcodeapk.herokuapp.com/barcodeApp/absen/all/${this.kode}`);
       this.data = response.data;
       console.log(this.data);
