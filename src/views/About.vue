@@ -15,8 +15,15 @@
         <b-col  col lg="5" >
         </b-col>
         <b-col col lg="2">
-          <p>Nama  {{ data.nama }} </p>
-          <p>Nim  {{ data.nim }} </p>
+          <p>Nama  : {{ data.nama }} </p>
+          <p>Nim  : {{ data.nim }} </p>
+          <p>Kelas  : {{ data.kelas }} </p>
+          <p>Prodi  : {{ data.prodi }} </p>
+          <p>Gedung  : {{ data.gd }} </p>
+          <p>Waktu Absen  : {{ data.date }} </p>
+          <br>
+          <hr>
+          <br>
         </b-col>
       </b-row>
       <br>
@@ -32,12 +39,27 @@ import axios from 'axios';
 let intervalTimer;
 
 export default {
+  async mounted() {
+    this.kode = localStorage.getItem('kode');
+    const responses = await axios.get(`https://barcodeapk.herokuapp.com/barcodeApp/absen/all/${this.kode}`);
+    this.data = responses.data;
+    console.log(this.data);
+    const d = new Date();
+    const n = d.getTime() / 1000;
+    const response = await axios.get(`https://barcodeapk.herokuapp.com/barcodeApp/timeOut/${this.kode}`);
+    localStorage.setItem('timeout', response.data);
+    const t = n - response.data;
+    console.log(n);
+    if (t < 1800) {
+      this.timer(Math.abs(1800 - t));
+    }
+  },
   data() {
     return {
       qrCls: 'qrcode',
       qrText: '11417010',
       size: 500,
-      kode: '',
+      kode: localStorage.getItem('kode'),
       data: [],
       background: '#ffffff',
       selectedTime: 10,
@@ -71,6 +93,7 @@ export default {
       axios.post(`https://barcodeapk.herokuapp.com/barcodeApp/set/${this.kode}`).then((value) => {
         console.log(value);
       });
+      localStorage.setItem('kode', this.kode);
       // eslint-disable-next-line no-undef
       const response = await axios.get(`https://barcodeapk.herokuapp.com/barcodeApp/absen/all/${this.kode}`);
       this.data = response.data;
