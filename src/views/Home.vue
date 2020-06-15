@@ -1,18 +1,151 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="home" id="app">
+    <h1>Login</h1>
+    <br>
+    <input class="form-control" v-model="username" type="text" placeholder="Username">
+    <br><br>
+    <input type="password" placeholder="Password" v-model="password">
+    <br><br>
+    <button @click="login">Login</button>
+    <router-link to="/register">Register</router-link>
   </div>
 </template>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-vue/2.15.0/bootstrap-vue-icons.common.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-vue/2.15.0/bootstrap-vue-icons.css"></script>
 <script>
 // @ is an alias to /src
 import HelloWorld from '@/components/HelloWorld.vue';
-
+import axios from 'axios';
 export default {
   name: 'Home',
-  components: {
-    HelloWorld,
+  data (){
+    return {
+      username: '',
+      password: '',
+    }
   },
+  components: {
+  },
+  methods:{
+    async login(){
+      axios.post(`https://barcodeapk.herokuapp.com/dosen/login/`,{
+        username: this.username,
+        password: this.password,
+      }).then((value) => {
+        console.log(value.data.messages);
+        if(!value.data.messages === 'Sukses'){
+          alert('Username Not Found');
+        }else{
+          window.location.href="/home"
+        }
+      });
+    },
+  }
 };
 </script>
+<style>
+  /* ==================
+ *  BASE
+ * ================== */
+  body {
+    font-family: 'Sarpanch', sans-serif;
+    color: hsl(0, 0%, 7%);
+    background: #f2f1ed;
+    background: radial-gradient(hsl(204, 86%, 93%), hsl(204, 86%, 63%));
+  }
+  .outer-container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: center;
+  }
+  /* ==================
+   *  APP
+   * ================== */
+  .countdown {
+    margin: 5px 0 30px;
+  }
+  h1 {
+    text-align: center;
+    font-size: 18px;
+    color: hsl(204, 86%, 43%);
+  }
+  h2 {
+    font-size: 120px;
+    width: 390px;
+    line-height: 1;
+    text-align: center;
+  }
+  h3 {
+    font-size: 28px;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+  }
+  h3 span {
+    width: 70px;
+    border-bottom: 2px solid hsl(348, 100%, 71%);
+    margin-left: 15px;
+    text-align: center;
+  }
+  .time {
+    display: flex;
+    justify-content: center;
+  }
+  .columns {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  /* ==================
+  *  SOCIAL MEDIA
+  * ================== */
+  .social-media-footer {
+    --font-color: hsl(204, 86%, 99%);
+    --font-size: 0.8rem;
+    margin-top: 1.9375rem;
+  }
+  .social-columns {
+    display: flex;
+    justify-content: center;
+
+    padding-bottom: 0.625rem;
+    font-size: var(--font-size);
+    color: var(--font-color);
+    width: 100%;
+  }
+  .social-columns .column {
+    padding: 0.4rem;
+    text-align: center;
+
+    /* to work with bulma */
+    display: flex;
+    align-items: center;
+    /* justify-content: center; */
+  }
+  .social-columns a {
+    text-decoration: none;
+    color: var(--font-color);
+
+    /* to work with bulma */
+    padding-left: 2px;
+  }
+  .social-columns a:hover {
+    text-decoration: underline;
+  }
+  /* GITHUB */
+  .github-code {
+    color: var(--font-color);
+    font-size: 0.8rem;
+    text-align: center;
+    margin-bottom: 0.625rem;
+  }
+  .github-code a {
+    text-decoration: none;
+    color: var(--font-color);
+  }
+  .github-code a:hover {
+    text-decoration: underline;
+  }
+
+</style>
