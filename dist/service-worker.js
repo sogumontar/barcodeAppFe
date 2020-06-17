@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.c9b868ada421b1e88fd0118f8064661f.js"
+  "/precache-manifest.4d0c1cfd10d2caaf5954833436805655.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "barcode-app"});
